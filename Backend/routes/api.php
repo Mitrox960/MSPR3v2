@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CreateUserController;
 use App\Http\Controllers\PlantsController;
+use App\Http\Controllers\MessagerieController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,7 @@ Route::get('/plants/get-all-plants', [PlantsController::class, 'allPlants']);
 Route::patch('/plants/post-plant/{plante}', [PlantsController::class, 'postPlant']);
 Route::patch('/plants/remove-plant/{plante}', [PlantsController::class, 'removePlant']);
 Route::delete('/plants/delete-plant/{plante}', [PlantsController::class, 'deletePlant']);
+Route::get('/messages/{id_user}', [MessagerieController::class, 'getUserMessage']);
 
 Route::group([
     'middleware' => 'api',

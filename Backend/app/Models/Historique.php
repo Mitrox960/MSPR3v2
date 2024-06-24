@@ -10,11 +10,14 @@ class Historique extends Model
     protected $primaryKey = 'id';
     public $timestamps = true;
 
+    
     protected $fillable = [
         'identifiant',
         'etat_de_garde',
         'date_garde',
         'note_garde',
+        'id_utilisateur',
+        'message',
         'id_utilisateur',
     ];
 
@@ -23,5 +26,10 @@ class Historique extends Model
         return $this->belongsTo(Utilisateur::class, 'id_utilisateur');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_utilisateur');
+    }
+    
     // Ajoute d'autres relations si n�cessaire
 }

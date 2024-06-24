@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { useRouter } from 'expo-router'; // Importez le hook useRouter
 import { SERVER_IP } from '@env';
+import { Link } from 'expo-router';
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
@@ -100,6 +101,9 @@ const Profile = () => {
       />
       <View style={styles.buttonContainer}>
         <Button title="Déconnexion" color="red" onPress={handleLogout} />
+        <Link href="/messagerie" >
+        <Button title="Messagerie" color="green" />
+        </Link>
       </View>
     </View>
   );
