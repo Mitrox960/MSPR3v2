@@ -4,7 +4,7 @@ import axios from 'axios';
 import { SERVER_IP } from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const SendMessageScreen = ({ route, navigation }) => {
+const sendmessage = ({ route, navigation }) => {
   const [message, setMessage] = useState('');
   const { ownerId } = route.params; // Récupérez l'ID du propriétaire de la plante
 
@@ -59,4 +59,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SendMessageScreen;
+export default sendmessage;

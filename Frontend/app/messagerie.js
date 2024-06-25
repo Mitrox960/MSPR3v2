@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import axios from 'axios';
 import { SERVER_IP } from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function MessagerieScreen() {
-  const [messages, setMessages] = useState([]);
+export default function messagerie() {
+  const [userMessages, setUserMessages] = useState([]);
 
   useEffect(() => {
     getUserMessages();
@@ -14,26 +14,30 @@ export default function MessagerieScreen() {
   const getUserMessages = async () => {
     try {
       const token = await AsyncStorage.getItem('loginToken');
-      const userId = await AsyncStorage.getItem('userId'); // Assurez-vous que userId est stocké dans AsyncStorage lors de la connexion
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      const response = await axios.get(`http://${SERVER_IP}:8000/api/messages/${userId}`);
-      setMessages(response.data);
+      const response = await axios.get(`http://${SERVER_IP}:8000/api/messages/get-user-messages`);
+      setUserMessages(response.data);
     } catch (error) {
       console.error('Erreur lors de la récupération des messages:', error);
     }
   };
 
+  const renderMessage = ({ item }) => (
+    <View style={styles.messageContainer}>
+      <View style={styles.messageDetails}>
+        <Text style={styles.messageText}>De: {item.senderName}</Text>
+        <Text style={styles.messageText}>Message: {item.message}</Text>
+        <Text style={styles.messageDate}>Date: {new Date(item.date).toLocaleString()}</Text>
+      </View>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       <FlatList
-        data={messages}
-        renderItem={({ item }) => (
-          <View style={styles.messageContainer}>
-            <Text style={styles.messageText}>{item.message}</Text>
-            <Text style={styles.timestampText}>{new Date(item.created_at).toLocaleString()}</Text>
-          </View>
-        )}
-        keyExtractor={(item) => item.id.toString()}
+        data={userMessages}
+        renderItem={renderMessage}
+        keyExtractor={(item, index) => index.toString()}
         contentContainerStyle={styles.listContent}
       />
     </View>
@@ -51,18 +55,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   messageContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: '#f0f0f0',
     borderRadius: 10,
     marginBottom: 10,
     padding: 10,
     width: '100%',
   },
+  messageDetails: {
+    flex: 1,
+  },
   messageText: {
     fontSize: 16,
     marginBottom: 5,
   },
-  timestampText: {
-    fontSize: 12,
+  messageDate: {
+    fontSize: 14,
     color: 'gray',
   },
 });

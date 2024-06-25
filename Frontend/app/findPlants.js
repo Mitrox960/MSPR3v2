@@ -69,6 +69,9 @@
             <Text style={styles.buttonText}>Retirer</Text>
           </TouchableOpacity>
           )}
+          <Link href="/sendmessage" >
+            <Button title="Contacter le propriétaire" color="green" />
+          </Link>
         </View>
       </View>
     );
